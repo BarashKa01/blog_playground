@@ -5,7 +5,7 @@ class Autoloader {
     static function autoload($className){
         if (strpos($className, __NAMESPACE__) === 0) {
             $className = str_replace(__NAMESPACE__, '', $className);
-            require '__DIR__'.'/' . $className . '.php';
+            require '__DIR__' . $className . '.php';
         }
     }
 
