@@ -1,8 +1,7 @@
-<?php
 
-use App\Database;
+<?php foreach ($db->query('SELECT * FROM article', 'App\Table\Article') as $post): ?>
 
-$db = new Database('blog_playground','localhost' ,'root' ,'');
-$datas = $db->query('SELECT * FROM article');
+<h2><a href="<?= $post->getURL(); ?>"><?=$post->title; ?></a></h2>
+<?= $post->getExtract(); ?>
 
-var_dump($datas);
+<?php endforeach; ?>

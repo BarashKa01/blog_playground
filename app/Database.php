@@ -30,19 +30,17 @@ private function getPDO(){
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //Verbose mode
     
             $this->pdo = $pdo;
-            var_dump('PDO initialised');
         }else{
             echo("Can't connect to the database, please review your configuration");
             return;
         }
     }
-    var_dump('PDO Called');
     return $this->pdo;
 }
 
-public function query($statement){
+public function query($statement, $className){
     $qry = $this->getPDO()->query($statement);
-    $datas = $qry->fetchAll(PDO::FETCH_OBJ);
+    $datas = $qry->fetchAll(PDO::FETCH_CLASS, $className);
     return $datas;
     }
 

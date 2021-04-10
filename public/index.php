@@ -1,6 +1,7 @@
 <?php
 
 require '../App/Autoloader.php';
+use App\Database;
 
 App\Autoloader::register();
 
@@ -9,6 +10,9 @@ if (isset($_GET['page'])) {
 } else {
     $page = 'home';
 }
+
+//Db init
+$db = new Database('blog_playground','localhost' ,'root' ,'');
 
 ob_start();
 
