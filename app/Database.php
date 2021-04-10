@@ -1,0 +1,49 @@
+<?php
+
+namespace App;
+
+use \PDO;
+
+class Database {
+
+ private $db_name;
+ private $db_host;
+ private $db_username;
+ private $db_pass;
+ private $pdo;
+
+
+public function __construct($db_name, $db_host, $db_username, $db_pass)
+{
+    $this->db_name = $db_name;
+    $this->db_host = $db_host;
+    $this->db_username = $db_username;
+    $this->db_pass = $db_pass;
+}
+
+private function getPDO(){
+
+    if($this->pdo === null){
+        if ( $this->db_name != null && $this->db_host != null && $this->db_username != null){
+            
+            $pdo = new PDO('mysql:dbname='.$this->db_name.';host='.$this->db_host, $this->db_username, $this->db_pass);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //Verbose mode
+    
+            $this->pdo = $pdo;
+            var_dump('PDO initialised');
+        }else{
+            echo("Can't connect to the database, please review your configuration");
+            return;
+        }
+    }
+    var_dump('PDO Called');
+    return $this->pdo;
+}
+
+public function query($statement){
+    $qry = $this->getPDO()->query($statement);
+    $datas = $qry->fetchAll(PDO::FETCH_OBJ);
+    return $datas;
+    }
+
+}

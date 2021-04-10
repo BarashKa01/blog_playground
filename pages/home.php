@@ -1,13 +1,8 @@
 <?php
 
-$pdo = new PDO('mysql:dbname=blog_playground;host=localhost', 'root', '');
-//Verbose mode
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+use App\Database;
 
-$pdo->exec('INSERT INTO article SET title="Title", "date="'. date('Y-ù-d H:i:s'). '"');
+$db = new Database('blog_playground','localhost' ,'root' ,'');
+$datas = $db->query('SELECT * FROM article');
 
-$statement = $pdo->query('SELECT * FROM article');
-
-$datas = $statement->fetchAll(PDO::FETCH_OBJ);
-
-var_dump($datas[0]->title);
+var_dump($datas);
