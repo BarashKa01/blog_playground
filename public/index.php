@@ -16,9 +16,10 @@ $db = new Database('blog_playground','localhost' ,'root' ,'');
 
 ob_start();
 
+//Routing
 if ($page === 'home'){
     require '../pages/home.php';
-} elseif ($page === 'single') {
+} elseif ($page === 'article') {
     require '../pages/single.php';
 }
 
