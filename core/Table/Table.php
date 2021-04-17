@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Table;
+namespace Core\Table;
 
-use App\Database\MySqlDatabase;
+use Core\Database\MySqlDatabase;
 
 class Table{
 

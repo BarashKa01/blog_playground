@@ -1,20 +1,20 @@
 <?php
 
-namespace App;
+namespace Core;
 
 class Config{
 
     private static $_instance;
     private $settings = [];
 
-    public function __construct(){
-     $this->settings = require dirname(__DIR__).'\config\config.php';
+    public function __construct($file){
+     $this->settings = require ($file);
     }
 
     //Singleton part
-    public static function get_instance(){
+    public static function get_instance($file){
         if (is_null(self::$_instance)){
-            self::$_instance = new Config();
+            self::$_instance = new Config($file);
         }
         return self::$_instance;
     }

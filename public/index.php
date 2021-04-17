@@ -1,15 +1,12 @@
 <?php
 
-session_start();
-
-
 use App\Config;
 
-require '../App/Autoloader.php';
+require '../App/App.php';
 
-App\Autoloader::register();
+App::load();
 
-$app = App\App::get_instance();
+$app = App::get_instance();
 
 $posts = $app->getTable('Articles');
 $categ = $app->getTable('Categories');

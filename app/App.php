@@ -1,11 +1,8 @@
 <?php
 
+use Core\Config;
+use Core\Database\MySqlDatabase;
 
-
-namespace App;
-
-use App\Database\MySqlDatabase;
-use App\Table\Table;
 
 class App
 {
@@ -37,6 +34,15 @@ class App
             $this->db_instance = new MySqlDatabase($config->getProp('db_name'), $config->getProp('db_host'), $config->getProp('db_user'), $config->getProp('db_pass'));
         }
         return $this->db_instance;
+    }
+
+    public static function load(){
+        session_start();
+        require 'Autoloader.php';
+        App\Autoloader::register();
+
+        require '..\Core\Autoloader.php';
+        Core\Autoloader::register();
     }
 
     //Factory part--------------------------------------------------------------------------------------------
