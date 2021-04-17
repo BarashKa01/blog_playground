@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Database;
 
 use \PDO;
 
-class Database {
+class MySqlDatabase extends Database {
 
  private $db_name;
  private $db_host;
@@ -38,10 +38,14 @@ private function getPDO(){
     return $this->pdo;
 }
 
-public function query($statement, $className, $only_one = false){
+public function query($statement, $className = null, $only_one = false){
     $qry = $this->getPDO()->query($statement);
-    $qry->setFetchMode(PDO::FETCH_CLASS, $className);
 
+    if($className === null){
+        $qry->setFetchMode(PDO::FETCH_OBJ);
+    }else{
+        $qry->setFetchMode(PDO::FETCH_CLASS, $className);
+    }
     if ($only_one){
         $datas = $qry->fetch();
     }else{

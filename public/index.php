@@ -15,6 +15,6 @@ $posts = $app->getTable('Articles');
 $categ = $app->getTable('Categories');
 $users = $app->getTable('Users');
 
-var_dump($posts);
+var_dump($posts->all());
 var_dump($categ);
 var_dump($users);

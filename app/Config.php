@@ -19,6 +19,7 @@ class Config{
         return self::$_instance;
     }
 
+    
     public function getProp($propName){
         if (isset($this->settings[$propName])){
             return $this->settings[$propName];
