@@ -1,12 +1,20 @@
 <?php
 
 session_start();
+
+
 use App\Config;
 
 require '../App/Autoloader.php';
 
 App\Autoloader::register();
 
-$config = new App\Config();
+$app = App\App::get_instance();
 
-var_dump($config);
+$posts = $app->getTable('Articles');
+$categ = $app->getTable('Categories');
+$users = $app->getTable('Users');
+
+var_dump($posts);
+var_dump($categ);
+var_dump($users);
