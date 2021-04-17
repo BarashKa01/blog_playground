@@ -5,33 +5,20 @@ namespace App;
 
 class App{
 
-    const DB_NAME = 'blog_playground' ;
-    const DB_USER = 'root' ;
-    const DB_HOST = 'localhost' ;
-    const DB_PASS = '';
+    public $title = 'My super blog, oh yeah';
 
-    private static $database;
-    private static $pageTitle = "Blog playground";
+    private static $_instance;
 
-    public static function getTitle(){
-       return static::$pageTitle;
-    }
+    public function __construct(){
+        $this->settings = require dirname(__DIR__).'\config\config.php';
+       }
 
-    public static function setTitle($title){
-        static::$pageTitle = $title;
-    }
+       public static function get_instance(){
+           if(is_null(self::$_instance)){
+               self::$_instance = new App();
+           }
 
-    public static function getDb(){
-        
-        if(self::$database === null){
-            self::$database = new Database(self::DB_NAME,self::DB_HOST ,self::DB_USER , self::DB_PASS);
-        }
-        return self::$database;
-    }
-
-    public static function notFound(){
-            header("HTTP/1.0 404 Not found");
-            header('Location:index.php?p=404');
-    }
+           return self::$_instance;
+       }
 
 }
