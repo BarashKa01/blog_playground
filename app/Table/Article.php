@@ -11,7 +11,7 @@ class Article extends Table
 
     public static function getLast()
     {
-        return App::getDb()->query(
+        return self::query(
             "SELECT article.id, title, content, category.name as category 
         FROM " . self::$table_name . " 
         LEFT JOIN category 
@@ -36,4 +36,16 @@ class Article extends Table
         $html .= '<p><a href="' . $this->getUrl() . '">See more</a></p>';
         return $html;
     }
+
+    public static function findByCategory($id)
+    {
+        return self::query(
+            "SELECT article.id, title, content, category.name as category 
+        FROM " . self::$table_name . " 
+        LEFT JOIN category 
+        ON category_id = category.id
+        WHERE category_id = ?"
+        ,$id);
+    }
+    
 }

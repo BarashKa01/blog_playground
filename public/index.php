@@ -17,6 +17,8 @@ if ($page === 'home'){
     require '../pages/home.php';
 } elseif ($page === 'article') {
     require '../pages/single.php';
+} elseif ($page === 'category') {
+    require '../pages/category.php';
 }
 
 $titleContent = ob_get_clean();

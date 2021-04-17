@@ -38,9 +38,15 @@ private function getPDO(){
     return $this->pdo;
 }
 
-public function query($statement, $className){
+public function query($statement, $className, $only_one = false){
     $qry = $this->getPDO()->query($statement);
-    $datas = $qry->fetchAll(PDO::FETCH_CLASS, $className);
+    $qry->setFetchMode(PDO::FETCH_CLASS, $className);
+
+    if ($only_one){
+        $datas = $qry->fetch();
+    }else{
+        $datas = $qry->fetchAll();
+    }
 
     return $datas;
     }
