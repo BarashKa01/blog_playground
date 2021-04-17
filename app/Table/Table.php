@@ -2,43 +2,26 @@
 
 namespace App\Table;
 
-use App\App;
+use App\Database\MySqlDatabase;
 
-class Table
-{
-    protected static $table_name;
+class Table{
 
-    public static function getAll()
-    {
-        return self::query("SELECT * 
-        FROM " . static::$table_name . "
-        ", get_called_class());
-    }
+    protected $table;
+    protected $db;
 
-    public static function findById($id)
-    {
-        return self::query("SELECT * 
-        FROM " . static::$table_name . " WHERE id = ?
-        ", $id, get_called_class(), true );
-    }
+    //Improvement : MySqlDatabase can be refactored as an interface
+   public function __construct(MySqlDatabase $db)
+   {
+       $this->db = $db;
+       if (is_null($this->table)){
+        $splittedPath = explode('\\', get_class($this));
+        $class_name = end($splittedPath);
+ 
+        $this->table = strtolower(str_replace('Table', '', $class_name));
+       }
+   }
 
-    /**
-     * @__get Magic method: Retrieve an unknown property by checking the property getter
-     * @name String: name of the property requested
-     */
-    public function __get($name)
-    {
-        $method = 'get' . ucfirst($name);
-        $this->$name = $this->$method();
-        return $this->$name;
-    }
-
-    public static function query($statement, $attributes = null, $only_one = false) {
-
-        if ($attributes) {
-            return App::getDb()->prepare($statement, [$attributes], get_called_class(), $only_one);
-        }else{
-            return App::getDb()->query($statement, get_called_class(), $only_one);
-        }
-    }
+   public function all(){
+    return $this->db->query('SELECT * FROM articles');
+   }
 }

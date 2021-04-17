@@ -1,25 +1,20 @@
 <?php
 
+session_start();
+
+
+use App\Config;
+
 require '../App/Autoloader.php';
 
 App\Autoloader::register();
 
-if (isset($_GET['page'])) {
-    $page = $_GET['page'];
-} else {
-    $page = 'home';
-}
+$app = App\App::get_instance();
 
-ob_start();
+$posts = $app->getTable('Articles');
+$categ = $app->getTable('Categories');
+$users = $app->getTable('Users');
 
-//Routing
-if ($page === 'home'){
-    require '../pages/home.php';
-} elseif ($page === 'article') {
-    require '../pages/single.php';
-} elseif ($page === 'category') {
-    require '../pages/category.php';
-}
-
-$titleContent = ob_get_clean();
-require '../pages/templates/default.php';
+var_dump($posts->all());
+var_dump($categ);
+var_dump($users);

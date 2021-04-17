@@ -1,37 +1,48 @@
 <?php
 
-use App\Database;
+
+
 namespace App;
 
-class App{
+use App\Database\MySqlDatabase;
+use App\Table\Table;
 
-    const DB_NAME = 'blog_playground' ;
-    const DB_USER = 'root' ;
-    const DB_HOST = 'localhost' ;
-    const DB_PASS = '';
+class App
+{
 
-    private static $database;
-    private static $pageTitle = "Blog playground";
+    public $title = 'My super blog, oh yeah';
 
-    public static function getTitle(){
-       return static::$pageTitle;
+    private static $_instance;
+    private $db_instance;
+
+    public function __construct()
+    {
+        $this->settings = require dirname(__DIR__) . '\config\config.php';
     }
 
-    public static function setTitle($title){
-        static::$pageTitle = $title;
-    }
-
-    public static function getDb(){
-        
-        if(self::$database === null){
-            self::$database = new Database(self::DB_NAME,self::DB_HOST ,self::DB_USER , self::DB_PASS);
+    //Singleton part-------------------------------------------------------------------------------------------
+    public static function get_instance()
+    {
+        if (is_null(self::$_instance)) {
+            self::$_instance = new App();
         }
-        return self::$database;
+
+        return self::$_instance;
     }
 
-    public static function notFound(){
-            header("HTTP/1.0 404 Not found");
-            header('Location:index.php?p=404');
+    public function getDb()
+    {
+        if (is_null($this->db_instance)) {
+            $config = Config::get_instance();
+            $this->db_instance = new MySqlDatabase($config->getProp('db_name'), $config->getProp('db_host'), $config->getProp('db_user'), $config->getProp('db_pass'));
+        }
+        return $this->db_instance;
     }
 
+    //Factory part--------------------------------------------------------------------------------------------
+    public function getTable($tableName)
+    {
+        $class_name = '\\App\\Table\\' . ucfirst($tableName) . 'Table';
+        return new $class_name($this->getDb());
+    }
 }
