@@ -30,7 +30,7 @@ class App
     public function getDb()
     {
         if (is_null($this->db_instance)) {
-            $config = Config::get_instance();
+            $config = Config::get_instance(ROOT. '/config/config.php');
             $this->db_instance = new MySqlDatabase($config->getProp('db_name'), $config->getProp('db_host'), $config->getProp('db_user'), $config->getProp('db_pass'));
         }
         return $this->db_instance;

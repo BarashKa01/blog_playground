@@ -2,16 +2,25 @@
 
 use App\Config;
 
+define('ROOT', dirname(__DIR__));
+
 require '../App/App.php';
 
 App::load();
 
-$app = App::get_instance();
+if (isset($_GET['page'])) {
+    $page = $_GET['page'];
+} else {
+    $page = 'home';
+}
 
-$posts = $app->getTable('Articles');
-$categ = $app->getTable('Categories');
-$users = $app->getTable('Users');
 
-var_dump($posts->all());
-var_dump($categ);
-var_dump($users);
+ob_start();
+
+    if ($page === 'home') {
+    require ROOT . '/pages/articles/home.php';
+}
+
+$content = ob_get_clean();
+
+require ROOT . '/pages/templates/default.php';

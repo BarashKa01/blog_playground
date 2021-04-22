@@ -1,11 +1,11 @@
 <?php
 
 use App\App;
-use App\Table\Article;
-use App\Table\Category;
+use App\Table\ArticlesTable;
+use App\Table\CategoriesTable;
 
-$posts = Article::getLast();
-$categories = Category::getAll();
+$posts = ArticlesTable::getLast();
+$categories = CategoriesTable::getAll();
 
 if ($posts === false || $categories === false) {
     App::notFound();
